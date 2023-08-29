@@ -1,15 +1,11 @@
 package main;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.ChronoUnit.MONTHS;
@@ -33,14 +29,6 @@ public class BudgetService {
             return 0.0;
         }
 
-        List<Budget> filteredBudgets = budgets.stream().filter(budget -> {
-            YearMonth budgetDate = YearMonth.parse(budget.getYearMonth(), dateTimeFormatter);
-
-            boolean afterStart = budgetDate.compareTo(startYearMonth) >= 0;
-            boolean beforeEnd = budgetDate.compareTo(endYearMonth) <= 0;
-            return afterStart && beforeEnd;
-        }).collect(Collectors.toList());
-
         Map<YearMonth, Integer> selectedmonthDaysMap = new HashMap<>();
 
         int monthDiff = (int) MONTHS.between(start, end);
@@ -59,12 +47,15 @@ public class BudgetService {
         }
 
         double result = 0.0;
-
-        for (Budget budget : filteredBudgets){
+        for (Budget budget : budgets){
             YearMonth budgetDate = YearMonth.parse(budget.getYearMonth(), dateTimeFormatter);
-            result += budget.getAmount() / budgetDate.lengthOfMonth() * selectedmonthDaysMap.get(budgetDate);
-        }
 
+            boolean afterStart = budgetDate.compareTo(startYearMonth) >= 0;
+            boolean beforeEnd = budgetDate.compareTo(endYearMonth) <= 0;
+            if (afterStart && beforeEnd){
+                result += budget.getAmount() / budgetDate.lengthOfMonth() * selectedmonthDaysMap.get(budgetDate);
+            }
+        }
 
         return result;
     }

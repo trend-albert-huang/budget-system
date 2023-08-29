@@ -6,8 +6,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
@@ -23,11 +21,10 @@ public class BudgetServiceTest {
     }
 
     @Test
-    public void partialMonth() throws ParseException {
+    public void partialMonth() {
         budgetRepository.setBudgets(Arrays.asList(
                 new Budget("202306", 300)
         ));
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
         LocalDate start = Year.of(2023).atMonth(Month.JUNE).atDay(1);
         LocalDate end = Year.of(2023).atMonth(Month.JUNE).atDay(2);
@@ -35,11 +32,10 @@ public class BudgetServiceTest {
     }
 
     @Test
-    public void fullMonth() throws ParseException {
+    public void fullMonth() {
         budgetRepository.setBudgets(Arrays.asList(
                 new Budget("202306", 300)
         ));
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
         LocalDate start = Year.of(2023).atMonth(Month.JUNE).atDay(1);
         LocalDate end = Year.of(2023).atMonth(Month.JUNE).atDay(30);
@@ -47,12 +43,11 @@ public class BudgetServiceTest {
     }
 
     @Test
-    public void crossTwoMonth() throws ParseException {
+    public void crossTwoMonth() {
         budgetRepository.setBudgets(Arrays.asList(
                 new Budget("202306", 300),
                 new Budget("202307", 31)
         ));
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
         LocalDate start = Year.of(2023).atMonth(Month.JUNE).atDay(1);
         LocalDate end = Year.of(2023).atMonth(Month.JULY).atDay(1);
@@ -60,13 +55,12 @@ public class BudgetServiceTest {
     }
 
     @Test
-    public void crossThreeMonth() throws ParseException {
+    public void crossThreeMonth() {
         budgetRepository.setBudgets(Arrays.asList(
                 new Budget("202306", 300),
                 new Budget("202307", 31),
                 new Budget("202308", 310)
         ));
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
         LocalDate start = Year.of(2023).atMonth(Month.JUNE).atDay(1);
         LocalDate end = Year.of(2023).atMonth(Month.AUGUST).atDay(1);
@@ -74,12 +68,11 @@ public class BudgetServiceTest {
     }
 
     @Test
-    public void crossThreeMonth_withoutOneMonthBudget() throws ParseException {
+    public void crossThreeMonth_withoutOneMonthBudget() {
         budgetRepository.setBudgets(Arrays.asList(
                 new Budget("202306", 300),
                 new Budget("202308", 310)
         ));
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
         LocalDate start = Year.of(2023).atMonth(Month.JUNE).atDay(1);
         LocalDate end = Year.of(2023).atMonth(Month.AUGUST).atDay(1);
@@ -87,12 +80,11 @@ public class BudgetServiceTest {
     }
 
     @Test
-    public void invalidInput() throws ParseException {
+    public void invalidInput() {
         budgetRepository.setBudgets(Arrays.asList(
                 new Budget("202306", 300),
                 new Budget("202308", 310)
         ));
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
         LocalDate start = Year.of(2023).atMonth(Month.JUNE).atDay(3);
         LocalDate end = Year.of(2023).atMonth(Month.JUNE).atDay(1);
